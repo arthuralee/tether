@@ -27,5 +27,5 @@
 *.out
 *.app
 
-./pod-build/
-./build/
+pod-build/
+build/
