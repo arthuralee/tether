@@ -1,0 +1,202 @@
+<!doctype html>
+<!--[if IE 7 ]>    <html lang="en-gb" class="isie ie7 oldie no-js"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en-gb" class="isie ie8 oldie no-js"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en-gb" class="isie ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en-gb" class="no-js">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--[if lt IE 9]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <![endif]-->
+    <title>tether</title>
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
+  <![endif]-->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/isotope.css" media="screen" />
+    <link rel="stylesheet" href="js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+    <!-- Owl Carousel Assets -->
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Font Awesome -->
+    <link href="font/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" id="nav-toggle" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" class="navbar-brand scroll-top logo"><b>tether</b></a>
+                </div>
+                <!--/.navbar-header-->
+                <div id="main-nav" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav" id="mainNav">
+                        <li><a href="./">Home</a></li>
+                        <li><a href="intro.html">Intro</a></li>
+                        <li class="active"><a href="tech.html">Technical</a></li>
+                        <li><a href="media.html">Media</a></li>
+                    </ul>
+                </div>
+                <!--/.navbar-collapse-->
+            </nav>
+            <!--/.navbar-->
+        </div>
+        <!--/.container-->
+    </header>
+    <!--/.header-->
+    <section id="home">
+      <div class="banner-container">
+        <img src="images/banner-bg.png" alt="banner"/>
+      </div>
+    </section>
+
+    <section id="technologies" class="secPad white">
+      <div class="container">
+        <div class="heading page-section">
+          <!-- Heading -->
+          <h2>Technologies</h2>
+          <p>We use a variety of software and hardware in this project</p>
+        </div>
+          <div class="row">
+                <div class="col-sm-6">
+                    <h2>Sensor package</h2>
+                    <ul>
+                      <li>ATmega128RFA1 MCU</li>
+                      <li>802.15.4 wireless technology</li>
+                      <li>9DOF sensors including accelerometer, gyroscope, magnometer</li>
+                      <li>Lithium-polymer battery powered</li>
+                      <li>micro USB charging</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                  <h2>TetherCam</h2>
+                  <ul>
+                    <li>Xbox Kinect v1</li>
+                    <li>AprilTags library</li>
+                  </ul>
+                </div>
+            </div>
+            <div class="row">
+                  <div class="col-sm-6">
+                      <h2>Synthesis</h2>
+                      <ul>
+                        <li>Kalman filtering</li>
+                      </ul>
+                  </div>
+                  <div class="col-sm-6">
+                      <h2>3D consumption</h2>
+                      <ul>
+                        <li>Unity 3D</li>
+                        <li>Oculus Rift</li>
+                      </ul>
+                  </div>
+              </div>
+        </div>
+    </section>
+
+
+    <section id="architecture" class="secPad white">
+      <div class="container">
+        <div class="heading page-section">
+          <!-- Heading -->
+          <h2>Architecture</h2>
+          <p>The overall architecture of the project is as follows:</p>
+        </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <img src="https://docs.google.com/drawings/image?id=sgo6vBK4a11z-flFvh1FJ_w&rev=148&h=489&w=605&ac=1" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <h3>Physical object</h3>
+              <p>The physical object represents the real world object we will be placing sensors on. The user can directly interact with the physical object by moving it around or changing its orientation, effectively using it as an “input” to our system. The object will be fully battery-powered and untethered.</p>
+              <h3>Identification tag</h3>
+              <p>The identification tag is a visual mark on the physical object that will “communicate” with the Kinect via visible light. We are using the AprilTags library for both tag generation and detection.</p>
+              <h3>Object sensors</h3>
+              <p>We use a 9DOF combination of sensors for orientation detection. This includes an accelerometer, gyroscope and magnometer.</p>
+            </div>
+            <div class="col-sm-4">
+              <h3>Wireless module</h3>
+              <p>The wireless module is responsible for wirelessly sending sensor data to the computer. The ATmega128RFA1 has a built in 2.4Ghz radio which we will use to communicate over the 802.15.4 protocol.</p>
+              <h3>Microsoft Kinect sensor</h3>
+              <p>The Microsoft Kinect contains a camera and depth sensor, used to track the identification tag (described above). The Kinect will output visual and depth data about the scene the sensor observes. The Kinect might be worn by the user so that the tracking is relative to their point of view.</p>
+              <h3>Computer</h3>
+              <p>The computer will serve as the processing unit for the user experience. The computer will receive all data (vision data from the Kinect, orientation data from the sensors via the wireless module). The computer will contain all the software and perform all processing.</p>
+          </div>
+          <div class="col-sm-4">
+            <h3>Vision processing</h3>
+            <p>The vision processing runs on the computer and will make use of the AprilTags and other libraries to position the tag in 3D space.</p>
+            <h3>Orientation processing</h3>
+            <p>The orientation processing runs in the computer, and uses the raw sensor data received wirelessly to figure out the actual orientation of the object. Sensor fusion is involved and a Kalman filter will be used.</p>
+            <h3>Unity 3D</h3>
+            <p>Unity 3D is our 3D rendering engine. It will take in information about the object’s position and orientation, appropriately place the object in the virtual world, and render the 3D scene.</p>
+            <h3>Oculus Rift</h3>
+            <p>The Oculus Rift is connected to the computer and will be the primary output device used to consume the experience. Users will interact with our system using the Oculus Rift.</p>
+          </div>
+        </div>
+    </section>
+
+    <section id="behavior" class="secPad white">
+      <div class="container">
+        <div class="heading page-section">
+          <!-- Heading -->
+          <h2>Use cases &amp; Behavior</h2>
+          <p>Our system is designed to be easy to use and natural in feel.  Sinse our goal was to bring a physical object to a virtual world seamlessly, we are making sure that our system is simple and intuitive.  After pluging the tranceiver into the computer and starting one of the demo applications, the user must hold the device with the sensors still for approximately 5-10 seconds.  The device position and orientation will be initiallized by the computer and the motion of the object in the real world will be modeled by our system and displayed accordingly in the demo's virtual space. In addition our system will allow for custom inputs to the system from the device, by attaching a sensor like a button or knob.  Finally the sensor can be recharged by plugging it in to the computer or wall A/C and a green light will indicate that the device is charging.</p>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+	    <img src="images/behavior.png" />
+	  </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="container">
+            <div class="social text-center">
+              <p>Team 5</p>
+              <p>Ahmed Shalaby &bull; Arthur Lee &bull; Tomer Borenstein</p>
+            </div>
+
+            <div class="clear"></div>
+            <!--CLEAR FLOATS-->
+        </div>
+    </footer>
+    <!--/.page-section-->
+    <section class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    Template by <a href="http://webThemez.com">WebThemez.com</a>
+                </div>
+            </div>
+            <!-- / .row -->
+        </div>
+    </section>
+    <a href="#top" class="topHome"><i class="fa fa-chevron-up fa-2x"></i></a>
+
+    <!--[if lte IE 8]><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script><![endif]-->
+    <script src="js/modernizr-latest.js"></script>
+    <script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/jquery.isotope.min.js" type="text/javascript"></script>
+    <script src="js/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+    <script src="js/jquery.nav.js" type="text/javascript"></script>
+    <script src="js/jquery.cslider.js" type="text/javascript"></script>
+    <script src="js/custom.js" type="text/javascript"></script>
+    <script src="js/owl-carousel/owl.carousel.js"></script>
+</body>
+</html>
