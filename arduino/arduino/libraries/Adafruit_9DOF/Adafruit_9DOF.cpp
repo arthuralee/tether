@@ -13,11 +13,7 @@
   Written by Kevin Townsend for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
  ***************************************************************************/
-#if ARDUINO >= 100
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+#include "Arduino.h"
 
 #include <Wire.h>
 #include <limits.h>
@@ -272,7 +268,7 @@ bool Adafruit_9DOF::magGetOrientation(sensors_axis_t axis, sensors_event_t *even
       return false;
   }
 
-  
+
 
   return true;
 }
@@ -340,7 +336,7 @@ bool Adafruit_9DOF::fusionGetOrientation(sensors_event_t *accel_event, sensors_e
                                                                      accel_event->acceleration.z * cos(orientation->roll)));
   // orientation->pitch = (float)atan2(-accel_event->acceleration.x, sqrt(accel_event->acceleration.y * accel_event->acceleration.y + \
                                                                      // accel_event->acceleration.z * accel_event->acceleration.z));
-  orientation->pitch = (float)atan2(-accel_event->acceleration.x, accel_event->acceleration.z); 
+  orientation->pitch = (float)atan2(-accel_event->acceleration.x, accel_event->acceleration.z);
   // if(accel_event->acceleration.z < 0){
   //   if(orientation->pitch > 0) orientation->pitch = PI_F - orientation->pitch;
   //   if(orientation->pitch < 0) orientation->pitch = -PI_F - orientation->pitch;

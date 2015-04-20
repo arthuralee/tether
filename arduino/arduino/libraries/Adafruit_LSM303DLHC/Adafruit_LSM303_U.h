@@ -9,17 +9,13 @@
   please support Adafruit andopen-source hardware by purchasing products
   from Adafruit!
 
-  Written by Kevin Townsend for Adafruit Industries.  
+  Written by Kevin Townsend for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
  ***************************************************************************/
 #ifndef __LSM303_H__
 #define __LSM303_H__
 
-#if (ARDUINO >= 100)
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+#include "Arduino.h"
 
 #include <Adafruit_Sensor.h>
 #ifdef __AVR_ATtiny85__
@@ -73,7 +69,7 @@
       LSM303_REGISTER_ACCEL_TIME_LATENCY_A      = 0x3C,
       LSM303_REGISTER_ACCEL_TIME_WINDOW_A       = 0x3D
     } lsm303AccelRegisters_t;
-    
+
     typedef enum
     {
       LSM303_REGISTER_MAG_CRA_REG_M             = 0x00,
@@ -106,7 +102,7 @@
       LSM303_MAGGAIN_4_7                        = 0xA0,  // +/- 4.7
       LSM303_MAGGAIN_5_6                        = 0xC0,  // +/- 5.6
       LSM303_MAGGAIN_8_1                        = 0xE0   // +/- 8.1
-    } lsm303MagGain;	
+    } lsm303MagGain;
 /*=========================================================================*/
 
 /*=========================================================================
@@ -122,7 +118,7 @@
       LSM303_MAGRATE_30                         = 0x05,  // 30 Hz
       LSM303_MAGRATE_75                         = 0x06,  // 75 Hz
       LSM303_MAGRATE_220                        = 0x07   // 200 Hz
-    } lsm303MagRate;	
+    } lsm303MagRate;
 /*=========================================================================*/
 
 /*=========================================================================
@@ -146,7 +142,7 @@
       float z;
     } lsm303AccelData;
 /*=========================================================================*/
-	
+
 /*=========================================================================
     CHIP ID
     -----------------------------------------------------------------------*/
@@ -158,7 +154,7 @@ class Adafruit_LSM303_Accel_Unified : public Adafruit_Sensor
 {
   public:
     Adafruit_LSM303_Accel_Unified(int32_t sensorID = -1);
-  
+
     bool begin(void);
     bool getEvent(sensors_event_t*);
     void getSensor(sensor_t*);
@@ -166,7 +162,7 @@ class Adafruit_LSM303_Accel_Unified : public Adafruit_Sensor
   private:
     lsm303AccelData _accelData;   // Last read accelerometer data will be available here
     int32_t         _sensorID;
-    
+
     void write8(byte address, byte reg, byte value);
     byte read8(byte address, byte reg);
     void read(void);
@@ -177,7 +173,7 @@ class Adafruit_LSM303_Mag_Unified : public Adafruit_Sensor
 {
   public:
     Adafruit_LSM303_Mag_Unified(int32_t sensorID = -1);
-  
+
     bool begin(void);
     void enableAutoRange(bool enable);
     void setMagGain(lsm303MagGain gain);
@@ -190,7 +186,7 @@ class Adafruit_LSM303_Mag_Unified : public Adafruit_Sensor
     lsm303MagData   _magData;     // Last read magnetometer data will be available here
     int32_t         _sensorID;
     bool            _autoRangeEnabled;
-    
+
     void write8(byte address, byte reg, byte value);
     byte read8(byte address, byte reg);
     void read(void);

@@ -1,11 +1,15 @@
-
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_LSM303_U.h>
 #include <Adafruit_L3GD20_U.h>
 #include <Adafruit_9DOF.h>
 
+#include "Arduino.h"
 /* Assign a unique ID to the sensors */
+void initSensors();
+void setup(void);
+void loop(void);
+
 Adafruit_9DOF                dof   = Adafruit_9DOF();
 Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(30301);
 Adafruit_LSM303_Mag_Unified   mag   = Adafruit_LSM303_Mag_Unified(30302);
@@ -49,7 +53,7 @@ void initSensors()
 void setup(void)
 {
   Serial.begin(115200);
-  
+
   /* Initialise the sensors */
   initSensors();
 }
@@ -61,6 +65,7 @@ void setup(void)
 /**************************************************************************/
 void loop(void)
 {
+
   sensors_event_t accel_event;
   sensors_event_t mag_event;
   sensors_event_t gyr_event;
@@ -117,5 +122,5 @@ void loop(void)
   }
 
   Serial.println(F(""));
-  delay(100);
+  delay(50);
 }

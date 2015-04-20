@@ -9,14 +9,11 @@
   please support Adafruit andopen-source hardware by purchasing products
   from Adafruit!
 
-  Written by Kevin Townsend for Adafruit Industries.  
+  Written by Kevin Townsend for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
  ***************************************************************************/
-#if ARDUINO >= 100
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+
+#include "Arduino.h"
 
 #ifdef __AVR_ATtiny85__
   #include "TinyWireM.h"
@@ -83,7 +80,7 @@ byte Adafruit_LSM303_Accel_Unified::read8(byte address, byte reg)
     value = Wire.read();
   #else
     value = Wire.receive();
-  #endif  
+  #endif
   Wire.endTransmission();
 
   return value;
@@ -123,7 +120,7 @@ void Adafruit_LSM303_Accel_Unified::read()
     uint8_t yhi = Wire.receive();
     uint8_t zlo = Wire.receive();
     uint8_t zhi = Wire.receive();
-  #endif    
+  #endif
 
   // Shift values to create properly formed integer (low byte first)
   _accelData.x = (int16_t)(xlo | (xhi << 8)) >> 4;
@@ -134,7 +131,7 @@ void Adafruit_LSM303_Accel_Unified::read()
 /***************************************************************************
  CONSTRUCTOR
  ***************************************************************************/
- 
+
 /**************************************************************************/
 /*!
     @brief  Instantiates a new Adafruit_LSM303 class
@@ -147,7 +144,7 @@ Adafruit_LSM303_Accel_Unified::Adafruit_LSM303_Accel_Unified(int32_t sensorID) {
 /***************************************************************************
  PUBLIC FUNCTIONS
  ***************************************************************************/
- 
+
 /**************************************************************************/
 /*!
     @brief  Setups the HW
@@ -160,27 +157,27 @@ bool Adafruit_LSM303_Accel_Unified::begin()
 
   // Enable the accelerometer (100Hz)
   write8(LSM303_ADDRESS_ACCEL, LSM303_REGISTER_ACCEL_CTRL_REG1_A, 0x57);
-  
+
   // LSM303DLHC has no WHOAMI register so read CTRL_REG1_A back to check
   // if we are connected or not
   uint8_t reg1_a = read8(LSM303_ADDRESS_ACCEL, LSM303_REGISTER_ACCEL_CTRL_REG1_A);
   if (reg1_a != 0x57)
   {
     return false;
-  }  
-  
+  }
+
   return true;
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Gets the most recent sensor event
 */
 /**************************************************************************/
 bool Adafruit_LSM303_Accel_Unified::getEvent(sensors_event_t *event) {
   /* Clear the event */
   memset(event, 0, sizeof(sensors_event_t));
-  
+
   /* Read new data */
   read();
 
@@ -196,7 +193,7 @@ bool Adafruit_LSM303_Accel_Unified::getEvent(sensors_event_t *event) {
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Gets the sensor_t data
 */
 /**************************************************************************/
@@ -262,7 +259,7 @@ byte Adafruit_LSM303_Mag_Unified::read8(byte address, byte reg)
     value = Wire.read();
   #else
     value = Wire.receive();
-  #endif  
+  #endif
   Wire.endTransmission();
 
   return value;
@@ -284,11 +281,11 @@ void Adafruit_LSM303_Mag_Unified::read()
   #endif
   Wire.endTransmission();
   Wire.requestFrom((byte)LSM303_ADDRESS_MAG, (byte)6);
-  
+
   // Wait around until enough data is available
   while (Wire.available() < 6);
 
-  // Note high before low (different than accel)  
+  // Note high before low (different than accel)
   #if ARDUINO >= 100
     uint8_t xhi = Wire.read();
     uint8_t xlo = Wire.read();
@@ -304,12 +301,12 @@ void Adafruit_LSM303_Mag_Unified::read()
     uint8_t yhi = Wire.receive();
     uint8_t ylo = Wire.receive();
   #endif
-  
+
   // Shift values to create properly formed integer (low byte first)
   _magData.x = (int16_t)(xlo | ((int16_t)xhi << 8));
   _magData.y = (int16_t)(ylo | ((int16_t)yhi << 8));
   _magData.z = (int16_t)(zlo | ((int16_t)zhi << 8));
-  
+
   // ToDo: Calculate orientation
   // _magData.orientation = 0.0;
 }
@@ -317,7 +314,7 @@ void Adafruit_LSM303_Mag_Unified::read()
 /***************************************************************************
  CONSTRUCTOR
  ***************************************************************************/
- 
+
 /**************************************************************************/
 /*!
     @brief  Instantiates a new Adafruit_LSM303 class
@@ -331,7 +328,7 @@ Adafruit_LSM303_Mag_Unified::Adafruit_LSM303_Mag_Unified(int32_t sensorID) {
 /***************************************************************************
  PUBLIC FUNCTIONS
  ***************************************************************************/
- 
+
 /**************************************************************************/
 /*!
     @brief  Setups the HW
@@ -341,7 +338,7 @@ bool Adafruit_LSM303_Mag_Unified::begin()
 {
   // Enable I2C
   Wire.begin();
-  
+
   // Enable the magnetometer
   write8(LSM303_ADDRESS_MAG, LSM303_REGISTER_MAG_MR_REG_M, 0x00);
 
@@ -360,7 +357,7 @@ bool Adafruit_LSM303_Mag_Unified::begin()
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Enables or disables auto-ranging
 */
 /**************************************************************************/
@@ -377,9 +374,9 @@ void Adafruit_LSM303_Mag_Unified::enableAutoRange(bool enabled)
 void Adafruit_LSM303_Mag_Unified::setMagGain(lsm303MagGain gain)
 {
   write8(LSM303_ADDRESS_MAG, LSM303_REGISTER_MAG_CRB_REG_M, (byte)gain);
-  
+
   _magGain = gain;
- 
+
   switch(gain)
   {
     case LSM303_MAGGAIN_1_3:
@@ -410,7 +407,7 @@ void Adafruit_LSM303_Mag_Unified::setMagGain(lsm303MagGain gain)
       _lsm303Mag_Gauss_LSB_XY = 230;
       _lsm303Mag_Gauss_LSB_Z  = 205;
       break;
-  } 
+  }
 }
 
 /**************************************************************************/
@@ -426,16 +423,16 @@ void Adafruit_LSM303_Mag_Unified::setMagRate(lsm303MagRate rate)
 
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Gets the most recent sensor event
 */
 /**************************************************************************/
 bool Adafruit_LSM303_Mag_Unified::getEvent(sensors_event_t *event) {
   bool readingValid = false;
-  
+
   /* Clear the event */
   memset(event, 0, sizeof(sensors_event_t));
-  
+
   while(!readingValid)
   {
 
@@ -443,10 +440,10 @@ bool Adafruit_LSM303_Mag_Unified::getEvent(sensors_event_t *event) {
     if (!(reg_mg & 0x1)) {
 			return false;
     }
-  
+
     /* Read new data */
     read();
-    
+
     /* Make sure the sensor isn't saturating if auto-ranging is enabled */
     if (!_autoRangeEnabled)
     {
@@ -458,10 +455,10 @@ bool Adafruit_LSM303_Mag_Unified::getEvent(sensors_event_t *event) {
       Serial.print(_magData.x); Serial.print(" ");
       Serial.print(_magData.y); Serial.print(" ");
       Serial.print(_magData.z); Serial.println(" ");
-#endif	  
+#endif
       /* Check if the sensor is saturating or not */
-      if ( (_magData.x >= 2040) | (_magData.x <= -2040) | 
-           (_magData.y >= 2040) | (_magData.y <= -2040) | 
+      if ( (_magData.x >= 2040) | (_magData.x <= -2040) |
+           (_magData.y >= 2040) | (_magData.y <= -2040) |
            (_magData.z >= 2040) | (_magData.z <= -2040) )
       {
         /* Saturating .... increase the range if we can */
@@ -486,32 +483,32 @@ bool Adafruit_LSM303_Mag_Unified::getEvent(sensors_event_t *event) {
             readingValid = false;
 #ifdef LSM303_DEBUG
             Serial.println("Changing range to +/- 4.7");
-#endif			
+#endif
             break;
           case LSM303_MAGGAIN_2_5:
             setMagGain(LSM303_MAGGAIN_4_0);
             readingValid = false;
 #ifdef LSM303_DEBUG
             Serial.println("Changing range to +/- 4.0");
-#endif			
+#endif
             break;
           case LSM303_MAGGAIN_1_9:
             setMagGain(LSM303_MAGGAIN_2_5);
             readingValid = false;
 #ifdef LSM303_DEBUG
             Serial.println("Changing range to +/- 2.5");
-#endif			
+#endif
             break;
           case LSM303_MAGGAIN_1_3:
             setMagGain(LSM303_MAGGAIN_1_9);
             readingValid = false;
 #ifdef LSM303_DEBUG
             Serial.println("Changing range to +/- 1.9");
-#endif			
+#endif
             break;
           default:
             readingValid = true;
-            break;  
+            break;
         }
       }
       else
@@ -521,7 +518,7 @@ bool Adafruit_LSM303_Mag_Unified::getEvent(sensors_event_t *event) {
       }
     }
   }
-  
+
   event->version   = sizeof(sensors_event_t);
   event->sensor_id = _sensorID;
   event->type      = SENSOR_TYPE_MAGNETIC_FIELD;
@@ -529,12 +526,12 @@ bool Adafruit_LSM303_Mag_Unified::getEvent(sensors_event_t *event) {
   event->magnetic.x = _magData.x / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
   event->magnetic.y = _magData.y / _lsm303Mag_Gauss_LSB_XY * SENSORS_GAUSS_TO_MICROTESLA;
   event->magnetic.z = _magData.z / _lsm303Mag_Gauss_LSB_Z * SENSORS_GAUSS_TO_MICROTESLA;
-		
+
 	return true;
 }
 
 /**************************************************************************/
-/*! 
+/*!
     @brief  Gets the sensor_t data
 */
 /**************************************************************************/
