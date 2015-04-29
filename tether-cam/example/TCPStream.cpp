@@ -22,7 +22,7 @@
 */
 
 #include <arpa/inet.h>
-#include "tcpstream.h"
+#include "TCPStream.h"
 
 TCPStream::TCPStream(int sd, struct sockaddr_in* address) : m_sd(sd) {
     char ip[50];
