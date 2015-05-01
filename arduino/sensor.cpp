@@ -25,7 +25,8 @@ float p_gyro_x;
 float p_gyro_y;
 float p_gyro_z;
 float p_heading;
-char buf[8];
+char buf[100];
+char *char_ptr;
 
 /**************************************************************************/
 /*!
@@ -121,32 +122,40 @@ void loop(void)
       p_heading = orientation.heading;
     }
 
+    char_ptr = buf;
+    *char_ptr = '\n';
+    char_ptr++;
 
+    dtostrf(p_roll, 1, 2, char_ptr);
+    char_ptr += strlen(char_ptr);
+    *char_ptr = ',';
+    char_ptr++;
 
+    dtostrf(p_pitch, 1, 2, char_ptr);
+    char_ptr += strlen(char_ptr);
+    *char_ptr = ',';
+    char_ptr++;
 
-    dtostrf(p_roll, 1, 2, buf);
+    dtostrf(p_gyro_x, 1, 2, char_ptr);
+    char_ptr += strlen(char_ptr);
+    *char_ptr = ',';
+    char_ptr++;
+
+    dtostrf(p_gyro_y, 1, 2, char_ptr);
+    char_ptr += strlen(char_ptr);
+    *char_ptr = ',';
+    char_ptr++;
+
+    dtostrf(p_gyro_z, 1, 2, char_ptr);
+    char_ptr += strlen(char_ptr);
+    *char_ptr = ',';
+    char_ptr++;
+
+    dtostrf(p_heading, 1, 2, char_ptr);
+    strcat(buf, "\n");
+
     rfPrint(buf);
-    rfPrint(",");
-
-    dtostrf(p_pitch, 1, 2, buf);
-    rfPrint(buf);
-    rfPrint(",");
-
-    dtostrf(p_gyro_x, 1, 2, buf);
-    rfPrint(buf);
-    rfPrint(",");
-
-    dtostrf(p_gyro_y, 1, 2, buf);
-    rfPrint(buf);
-    rfPrint(",");
-
-    dtostrf(p_gyro_z, 1, 2, buf);
-    rfPrint(buf);
-    rfPrint(",");
-
-    dtostrf(p_heading, 1, 2, buf);
-    rfPrint(buf);
-    rfPrint("\n");
+    //Serial.print(buf);
 
     delay(100);
 }
