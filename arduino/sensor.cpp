@@ -171,5 +171,5 @@ void loop(void)
     rfPrint(buf);
     //Serial.print(buf);
 
-    delay(100);
+    delay(20);
 }
