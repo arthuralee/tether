@@ -152,7 +152,21 @@ void loop(void)
     char_ptr++;
 
     dtostrf(p_heading, 1, 2, char_ptr);
-    strcat(buf, "\n");
+    char_ptr += strlen(char_ptr);
+    *char_ptr = ',';
+    char_ptr++;
+
+    char pt1 = analogRead(2) > 255 ? '1' : '0';
+    char pt2 = analogRead(3) > 255 ? '1' : '0';
+    char pt3 = analogRead(4) > 255 ? '1' : '0';
+
+    char_ptr[0] = pt1;
+    char_ptr[1] = ',';
+    char_ptr[2] = pt2;
+    char_ptr[3] = ',';
+    char_ptr[4] = pt3;
+    char_ptr[5] = '\n';
+    char_ptr[6] = '\0';
 
     rfPrint(buf);
     //Serial.print(buf);
