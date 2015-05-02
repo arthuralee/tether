@@ -26,8 +26,8 @@ public class moveCube : MonoBehaviour {
 	{
 		//Check how much bytes are recieved and call EndRecieve to finalize handshake
 		int recieved = _clientSocket.EndReceive (AR);
-		
-		if (recieved > 1) {
+
+		if (recieved > 2) {
 		
 			//Copy the recieved data into new buffer , to avoid null bytes
 			byte[] recData = new byte[recieved];
