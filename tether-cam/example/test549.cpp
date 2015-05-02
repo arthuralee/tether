@@ -74,6 +74,7 @@ extern char *optarg;
 
 const char* windowName = "test549";
 
+int cancelFlag = false;
 
 // utility function to provide current system time (used below in
 // determining frame rate at which images are being processed)
@@ -322,7 +323,7 @@ public:
 
   }
 
-  void print_detection(AprilTags::TagDetection& detection, TCPStream *stream, bool send) const {
+  void print_detection(AprilTags::TagDetection& detection, TCPStream *stream, char *msg) {
     cout << "  Id: " << detection.id
          << " (Hamming: " << detection.hammingDistance << ")";
 
@@ -355,10 +356,7 @@ public:
          << ", roll=" << roll
          << endl;
 
-   char msg[1024];
    sprintf(msg,"%d,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f\n", detection.id, translation.norm(),translation(0),translation(1),translation(2), yaw, pitch, roll);
-   cout << msg;
-   if (send) stream->send(msg, strlen(msg));
 
     // Also note that for SLAM/multi-view application it is better to
     // use reprojection error of corner points, because the noise in
@@ -387,12 +385,19 @@ public:
 
     // print out each detection
 
-    char msg[512];
+    char msg[1024];
     sprintf(msg," %ld tags detected\n", detections.size());
-    cout << msg;
+    //cout << msg;
 
     for (int i=0; i<detections.size(); i++) {
-      print_detection(detections[i], stream, i==0);
+      print_detection(detections[i], stream, msg);
+      if (i==0) {
+        stream->send(msg, strlen(msg));
+      }
+    }
+
+    if (detections.size() == 0) {
+      stream->send("\0", 1);
     }
 
     // show the current image including any detections
@@ -420,6 +425,10 @@ public:
     int frame = 0;
     double last_t = tic();
     while (true) {
+      if (cancelFlag) {
+        cancelFlag = false;
+        break;
+      }
 
       // capture frame
       m_cap >> image;
@@ -430,7 +439,7 @@ public:
       frame++;
       if (frame % 10 == 0) {
         double t = tic();
-        printf(" %.2f fps\n",10./(t-last_t));
+        //printf(" %.2f fps\n",10./(t-last_t));
         last_t = t;
       }
 
@@ -442,8 +451,14 @@ public:
 }; // Demo
 
 
+void pipe_handler(int signum) {
+  cancelFlag = true;
+}
+
 // here is were everything begins
 int main(int argc, char* argv[]) {
+
+  signal (SIGPIPE, pipe_handler);
 
   // Set up server
   TCPStream* stream = NULL;
