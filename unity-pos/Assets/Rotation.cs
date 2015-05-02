@@ -7,7 +7,7 @@ using System.Globalization;
 public class Rotation : MonoBehaviour {
 	public Vector3 axis = new Vector3(0, 0, 0);
 	public int speed = 20;
-	SerialPort stream = new SerialPort("/dev/tty.usbmodemfd121", 115200);
+	SerialPort stream = new SerialPort("/dev/tty.usbmodemfa131", 115200);
 	float acc_roll;
 	float acc_pitch;
 	float gyr_x;
@@ -130,7 +130,6 @@ public class Rotation : MonoBehaviour {
 		timer = Time.time;
 
 
-
 		// This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
 		if ((acc_pitch < -120 && kalAngleY > 120) || (acc_pitch > 120 && kalAngleY < -120)) {
 			kalmanY.angle = acc_pitch;
@@ -138,38 +137,15 @@ public class Rotation : MonoBehaviour {
 			compAngleY = acc_pitch;
 		} else
 			kalAngleY = kalmanY.get_angle(acc_pitch, gyr_y, dt); // Calculate the angle using a Kalman filter
-		
-		if (Mathf.Abs(kalAngleY) > 90)
-			gyr_x = -gyr_x; // Invert rate, so it fits the restriced accelerometer reading
-		// This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
-//		if ((acc_roll < -60 && kalAngleX > 60) || (acc_roll > 60 && kalAngleX < -60)) {
-//			kalmanX.angle = acc_roll;
-//			kalAngleX = acc_roll;
-//			compAngleX = acc_roll;
-//		} else
-		kalAngleX = kalmanX.get_angle(acc_roll, gyr_x, dt); // Calculate the angle using a Kalman filter
 
-		compAngleX = 0.7f * (compAngleX + gyr_x * dt) + 0.3f * acc_roll; // Calculate the angle using a Complimentary filter
-		compAngleY = 0.7f * (compAngleY + gyr_y * dt) + 0.3f * acc_pitch;
-		/* Print Data */
-//		angle = (angle + 2);
-//		if (angle == 180) angle = -180;
-		axis.x = 0.0f;
-		axis.z = 0.0f;
-//		if (Mathf.Abs (kalAngleY) > 85 && Mathf.Abs (kalAngleY) < 90) {
-//			axis.y = 180.0f;
-//			kalAngleY = acc_pitch;
-//		}
-//		else 
-		axis.y = 0.0f;
-//		
-		axis.x = -kalAngleX;
-		axis.z = -kalAngleY;
-//		axis.y = -mag_heading;
-//		axis.x = Mathf.Cos (mag_heading  / (float)57.2957795) * Mathf.Cos (-kalAngleY / (float)57.2957795) * (float)57.2957795;
-//		axis.y = Mathf.Sin (mag_heading  / (float)57.2957795) * Mathf.Cos (-kalAngleY / (float)57.2957795) * (float)57.2957795;
-//		axis.z = Mathf.Sin (-kalAngleY / (float)57.2957795) * (float)57.2957795;
-		transform.localEulerAngles = axis;
+		if ((acc_roll < -60 && kalAngleX > 60) || (acc_roll > 60 && kalAngleX < -60)) {
+			kalmanX.angle = acc_roll;
+			kalAngleX = acc_roll;
+		} else
+			kalAngleX = kalmanX.get_angle(acc_roll, gyr_x, dt); // Calculate the angle using a Kalman filter
 
+
+		Quaternion target = Quaternion.Euler(-kalAngleY, -mag_heading, kalAngleX);
+		transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 2.0f);
 	}
 }
