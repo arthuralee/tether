@@ -6,14 +6,10 @@
   Adafruit invests time and resources providing this open source code,
   please support Adafruit andopen-source hardware by purchasing products
   from Adafruit!
-  Written by Kevin Townsend for Adafruit Industries.  
+  Written by Kevin Townsend for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
  ***************************************************************************/
-#if ARDUINO >= 100
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+#include "Arduino.h"
 
 #include <Wire.h>
 #include <limits.h>
@@ -31,20 +27,20 @@
 /***************************************************************************
  CONSTRUCTOR
  ***************************************************************************/
- 
+
 /**************************************************************************/
 /*!
     @brief  Instantiates a new Adafruit_9DOF class
 */
 /**************************************************************************/
-Adafruit_9DOF::Adafruit_9DOF(void) 
+Adafruit_9DOF::Adafruit_9DOF(void)
 {
 }
 
 /***************************************************************************
  PUBLIC FUNCTIONS
  ***************************************************************************/
- 
+
 /**************************************************************************/
 /*!
     @brief  Setups the HW
@@ -68,7 +64,7 @@ bool Adafruit_9DOF::begin()
                           .pitch and .roll fields populated
     @return Returns true if the operation was successful, false if there
             was an error
-            
+
     @code
     bool error;
     sensors_event_t event;
