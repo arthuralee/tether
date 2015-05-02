@@ -386,7 +386,7 @@ public:
     // print out each detection
 
     char msg[1024];
-    sprintf(msg," %ld tags detected\n", detections.size());
+    //sprintf(msg," %ld tags detected\n", detections.size());
     //cout << msg;
 
     for (int i=0; i<detections.size(); i++) {
@@ -396,9 +396,11 @@ public:
       }
     }
 
+    /*
     if (detections.size() == 0) {
-      stream->send("\0", 1);
+      stream->send("0\n", 2);
     }
+    */
 
     // show the current image including any detections
     if (m_draw) {
