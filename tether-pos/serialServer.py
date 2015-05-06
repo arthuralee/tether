@@ -24,8 +24,14 @@ while True:
 
         while True:
             line = ser.readline()
-            connection.sendall(line)
-
+            if len(line) > 1:
+                connection.sendall(line)
+    except socket.error, e:
+        ser.close()
+        connection.close()
+    except IOError, e:
+        ser.close()
+        connection.close()
     finally:
         # Clean up the connection
         ser.close()
